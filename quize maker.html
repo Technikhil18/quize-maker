@@ -1,0 +1,112 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>Quiz</title>
+<style>
+body{font-family:Arial;background:#eee;text-align:center}
+.box{background:white;width:400px;margin:50px auto;padding:25px;border-radius:10px}
+button{padding:10px 20px;margin:10px;background:#4f46e5;color:white;border:0;border-radius:5px}
+label{display:block;text-align:left;padding:10px;background:#eee;margin:5px}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h1>Online Quiz</h1>
+
+<h3 id="question"></h3>
+<div id="options"></div>
+
+<button onclick="back()">Back</button>
+<button onclick="next()">Next</button>
+
+<h3 id="result"></h3>
+<button onclick="quit()">Exit Quiz</button>
+</div>
+
+<script>
+
+let quiz=[
+{q:"What is HTML?",o:["Language","Markup Language","Database","OS"],a:1},
+{q:"Which is used for styling?",o:["HTML","CSS","SQL","Python"],a:1},
+{q:"Which adds interactivity?",o:["CSS","HTML","JavaScript","SQL"],a:2},
+{q:"Which is a database language?",o:["SQL","CSS","HTML","Java"],a:0}
+];
+
+let i=0;
+let score=0;
+let answers=[];
+
+function show(){
+
+document.getElementById("question").innerText=
+(i+1)+". "+quiz[i].q;
+
+document.getElementById("options").innerHTML=
+quiz[i].o.map((x,n)=>
+`<label>
+<input type="radio" name="ans" value="${n}"
+${answers[i]==n?"checked":""}> ${x}
+</label>`
+).join("");
+
+}
+
+function next(){
+
+let a=document.querySelector('input[name="ans"]:checked');
+
+if(!a){
+alert("Select an answer");
+return;
+}
+
+answers[i]=+a.value;
+
+i++;
+
+if(i<quiz.length){
+show();
+}else{
+document.getElementById("question").innerText="Quiz Completed!";
+document.getElementById("options").innerHTML="";
+document.getElementById("result").innerText=
+"Your Score: "+answers.filter((x,n)=>x==quiz[n].a).length+"/"+quiz.length;
+}
+
+}
+
+function back(){
+
+if(i>0){
+i--;
+show();
+}else{
+alert("You are on the first question");
+}
+
+}
+
+show();
+function quit(){
+    if(confirm("Are you sure you want to quit the quiz?")){
+        i=0;
+        score=0;
+        answers=[];
+        document.getElementById("result").innerText="";
+        show();
+    }
+}
+function quit(){
+    if(confirm("Are you sure you want to quit?")){
+        window.location.href="index.html";
+    }
+}
+
+</script>
+
+</body>
+</html>
+```
